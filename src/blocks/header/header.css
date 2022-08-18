@@ -1,0 +1,14 @@
+.header {
+  padding-top: 45px;
+  padding-bottom: 41px;
+  border-bottom: 1px solid rgb(54,54,54,0.7);
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding-top: 28px;
+    padding-left: 27px;
+    padding-bottom: 31.6px;
+  }
+}
