@@ -10,7 +10,8 @@
 
 @media (max-width: 767px) {
   .header {
+    border-top: none;
     padding: 28px 27px 31.6px;
-    transition: margin-top 0.3s
+    transition: 0.3s ease-in;
   }
 }
