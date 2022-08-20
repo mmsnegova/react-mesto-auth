@@ -88,17 +88,23 @@ export default function App() {
     });
   }
 
-  useEffect(() => {
-    console.log(infoRespose);
-  });
-
   function onRegister(password, email) {
     return auth.register(password, email).then((res) => {
-      if (!res || res.statusCode === 400)
-        throw new Error("Что-то пошло не так");
+      if (!res) throw new Error("Что-то пошло не так");
       return res;
     });
   }
+
+  function onLogin(password, email) {
+    return auth.authorize(password, email).then((res) => {
+      setLoggedIn(true);
+      console.log(res);
+    });
+  }
+
+  useEffect(() => {
+    console.log(loggedIn);
+  });
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -188,7 +194,11 @@ export default function App() {
               />
             </Route>
             <Route path="/sign-in">
-              <Login onInfoTooltip={handleInfoTooltipResponse} />
+              <Login
+                onInfoTooltip={handleInfoTooltipResponse}
+                onRespons={handleRespons}
+                onLogin={onLogin}
+              />
             </Route>
             <Route exact path="/">
               {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}

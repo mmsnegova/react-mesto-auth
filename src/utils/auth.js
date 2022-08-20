@@ -18,21 +18,22 @@ export const register = (password, email) => {
     .catch((err) => console.log(err));
 };
 
-export const authorization = (identifier, password) => {
-  return fetch(`${BASE_URL}/auth/local`, {
+export const authorize = (password, email) => {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ identifier, password }),
+    body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      return response.json();
+      if (response.status !== 401 && response.status !== 400)
+        return response.json();
+      else return;
     })
     .then((response) => {
-      if (response.jwt) {
-        localStorage.setItem("jwt", response.jwt);
+      if (response.token) {
+        localStorage.setItem("token", response.token);
         return response;
       } else {
         return;

@@ -41,6 +41,7 @@ function Register(props) {
         history.push("/sign-in");
       })
       .catch(() => {
+        resetForm();
         handleRespons(error, "Что-то пошло не так! Попробуйте ещё раз.");
       })
       .finally(() => {
