@@ -8,12 +8,9 @@
   line-height: 27px;
 }
 
-
-
 .popup__input:focus {
   outline: none;
 }
-
 
 .popup__body .input-container:last-of-type .popup__input:last-of-type {
   margin-top: 0;

@@ -2,7 +2,6 @@ import React from "react";
 import api from "../utils/api";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
@@ -15,7 +14,7 @@ import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState("");
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -25,6 +24,7 @@ export default function App() {
     React.useState(false);
   const [isPopupWithConformationOpen, setIsPopupWithConformationOpen] =
     React.useState(false);
+  const [isNavMenuOpen, setIsNavMenuOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cardDelete, setCardDelete] = React.useState(null);
 
@@ -48,6 +48,11 @@ export default function App() {
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   };
+
+  const handleNavMenuClick = () => {
+    setIsNavMenuOpen(!isNavMenuOpen);
+  };
+
   const handleDeleteCardClick = () => {
     setIsPopupWithConformationOpen(true);
   };
@@ -130,7 +135,6 @@ export default function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <div className="page__container">
-          <Header />
           <Switch>
             <ProtectedRoute
               path="/main"
@@ -139,6 +143,8 @@ export default function App() {
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onPopupWithConformation={handleDeleteCardClick}
+              onNavMenu={handleNavMenuClick}
+              isOpenNavMenu={isNavMenuOpen}
               onCardClick={handleCardClick}
               cards={cards}
               onCardLike={handleCardLike}
@@ -152,7 +158,7 @@ export default function App() {
               <Login />
             </Route>
             <Route exact path="/">
-              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/login" />}
+              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />

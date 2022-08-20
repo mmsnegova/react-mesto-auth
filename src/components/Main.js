@@ -1,63 +1,82 @@
 import React from "react";
-import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
+import Card from "./Card";
+import Header from "./Header";
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
-
   return (
-    <main className="content">
-      <section className="profile">
-        <div className="profile__bio">
-          <div className="cover">
-            <img
-              className="profile__avatar"
-              alt="Аватар"
-              src={currentUser.avatar}
-            />
-            <button
-              className="profile__update-avatar"
-              type="button"
-              aria-label="Редактировать аватар"
-              onClick={props.onEditAvatar}
-            />
-          </div>
-          <div className="profile__info">
-            <h1 className="profile__name">{currentUser.name}</h1>
-            <button
-              className="profile__edit"
-              type="button"
-              aria-label="Редактировать профиль"
-              onClick={props.onEditProfile}
-            />
-            <p className="profile__about">{currentUser.about}</p>
-          </div>
+    <>
+      <Header isOpenNavMenu={props.isOpenNavMenu ? "header_opened" : ""}>
+        <div
+          className={`header__menu-burger ${
+            props.isOpenNavMenu ? "header__menu-burger_click" : ""
+          }`}
+          onClick={props.onNavMenu}
+        >
+          <span></span>
         </div>
-        <button
-          className="profile__add"
-          type="button"
-          aria-label="Добавить"
-          onClick={props.onAddPlace}
-        />
-      </section>
-      <section className="gallery">
-        <ul className="gallery__list">
-          {props.cards.map((card) => {
-            return (
-              <Card
-                key={card._id}
-                {...card}
-                card={card}
-                onCardClick={props.onCardClick}
-                onCardLike={props.onCardLike}
-                onCardDelete={props.onCardDelete}
-                onPopupWithConformation={props.onPopupWithConformation}
+        <nav
+          className={`header__nav ${
+            props.isOpenNavMenu ? "header__nav_opened" : ""
+          }`}
+        >
+          <p className="header__user-login">email@mail.com</p>
+          <button className="header__exit-btn">Выйти</button>
+        </nav>
+      </Header>
+      <main className="content">
+        <section className="profile">
+          <div className="profile__bio">
+            <div className="cover">
+              <img
+                className="profile__avatar"
+                alt="Аватар"
+                src={currentUser.avatar}
               />
-            );
-          })}
-        </ul>
-      </section>
-    </main>
+              <button
+                className="profile__update-avatar"
+                type="button"
+                aria-label="Редактировать аватар"
+                onClick={props.onEditAvatar}
+              />
+            </div>
+            <div className="profile__info">
+              <h1 className="profile__name">{currentUser.name}</h1>
+              <button
+                className="profile__edit"
+                type="button"
+                aria-label="Редактировать профиль"
+                onClick={props.onEditProfile}
+              />
+              <p className="profile__about">{currentUser.about}</p>
+            </div>
+          </div>
+          <button
+            className="profile__add"
+            type="button"
+            aria-label="Добавить"
+            onClick={props.onAddPlace}
+          />
+        </section>
+        <section className="gallery">
+          <ul className="gallery__list">
+            {props.cards.map((card) => {
+              return (
+                <Card
+                  key={card._id}
+                  {...card}
+                  card={card}
+                  onCardClick={props.onCardClick}
+                  onCardLike={props.onCardLike}
+                  onCardDelete={props.onCardDelete}
+                  onPopupWithConformation={props.onPopupWithConformation}
+                />
+              );
+            })}
+          </ul>
+        </section>
+      </main>
+    </>
   );
 }
 

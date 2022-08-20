@@ -1,0 +1,13 @@
+.popup__title_light{
+    color: #FFF;
+    text-align: center;
+
+}
+
+@media (max-width: 767px) {
+    .popup__title_light {
+      font-size: 20px;
+      line-height: 24px;
+    }
+}
+  

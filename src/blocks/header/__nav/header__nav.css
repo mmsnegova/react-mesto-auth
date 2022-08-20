@@ -1,0 +1,14 @@
+.header__nav {
+    color: #FFF;
+    list-style-type: none;
+    font-size: 18px;
+    line-height: 22px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+@media (max-width: 767px) {
+    .header__nav {
+        display: none;
+    }
+}

@@ -1,0 +1,6 @@
+@media (max-width: 767px){
+    .header_opened{
+        margin-top: 142px;
+        transition: margin-top 0.3s
+    }
+}
