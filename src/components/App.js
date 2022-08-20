@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import api from "../utils/api";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -9,12 +9,14 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import PopupWithConformation from "./PopupWithConformation";
 import ImagePopup from "./ImagePopup";
+import InfoTooltip from "./InfoTooltip";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
+import * as auth from "../utils/auth";
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState("");
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -24,7 +26,9 @@ export default function App() {
     React.useState(false);
   const [isPopupWithConformationOpen, setIsPopupWithConformationOpen] =
     React.useState(false);
+  const [isInfoTooltipnOpen, setInfoTooltipOpen] = React.useState(false);
   const [isNavMenuOpen, setIsNavMenuOpen] = React.useState(false);
+  const [infoRespose, setInfoRespose] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cardDelete, setCardDelete] = React.useState(null);
 
@@ -56,6 +60,11 @@ export default function App() {
   const handleDeleteCardClick = () => {
     setIsPopupWithConformationOpen(true);
   };
+
+  const handleInfoTooltipResponse = () => {
+    setInfoTooltipOpen(true);
+  };
+
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
@@ -67,9 +76,29 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsPopupWithConformationOpen(false);
+    setInfoTooltipOpen(false);
     setSelectedCard(null);
     setCardDelete(null);
   };
+
+  function handleRespons(img, message) {
+    setInfoRespose({
+      img,
+      message,
+    });
+  }
+
+  useEffect(() => {
+    console.log(infoRespose);
+  });
+
+  function onRegister(password, email) {
+    return auth.register(password, email).then((res) => {
+      if (!res || res.statusCode === 400)
+        throw new Error("Что-то пошло не так");
+      return res;
+    });
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -152,10 +181,14 @@ export default function App() {
               component={Main}
             />
             <Route path="/sign-up">
-              <Register />
+              <Register
+                onInfoTooltip={handleInfoTooltipResponse}
+                onRespons={handleRespons}
+                onRegister={onRegister}
+              />
             </Route>
             <Route path="/sign-in">
-              <Login />
+              <Login onInfoTooltip={handleInfoTooltipResponse} />
             </Route>
             <Route exact path="/">
               {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
@@ -185,6 +218,11 @@ export default function App() {
           onConformationCardDelete={handleConformationCardDelete}
         />
         <ImagePopup {...selectedCard} onClose={closeAllPopups} />
+        <InfoTooltip
+          {...infoRespose}
+          isOpen={isInfoTooltipnOpen}
+          onClose={closeAllPopups}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

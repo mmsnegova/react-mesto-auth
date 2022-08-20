@@ -6,16 +6,14 @@ function Login() {
   return (
     <>
       <Header>
-        <nav className="header__nav">
-          <Link to="sign-up" className="header__link">
-            Регистрация
-          </Link>
-        </nav>
+        <Link to="sign-up" className="header__link">
+          Регистрация
+        </Link>
       </Header>
       <div className="content">
         <section className="sign">
           <form className="popup__body">
-            <h2 className="popup__title popup__title_light">Вход</h2>
+            <h2 className="popup__title popup__title_dark">Вход</h2>
             <div className="input-container">
               <input
                 className="popup__input popup__input_light popup__input_email"
