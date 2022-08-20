@@ -1,6 +1,6 @@
 @media (max-width: 767px) {
     .header__menu-burger {
-        position: relative; /* задаем относительное позиционирование */
+        position: relative;
         width: 24px;
         height: 21px;
         display: block;
@@ -26,11 +26,11 @@
     }
     .header__menu-burger:after{
         bottom: 0;
-        transition: 0.4s;
+        transition: 0.3s;
     }
     .header__menu-burger:before{
         top:0;
-        transition: 0.4s;
+        transition: 0.3s;
     }
 }
 

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Header from "./Header";
-import * as auth from "../utils/auth";
 import ok from "../images/Ok.svg";
 import error from "../images/Error.svg";
 

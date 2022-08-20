@@ -2,11 +2,17 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
 import Header from "./Header";
+
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
+
+  function onSignOut() {
+    props.onSignOut();
+    props.setIsNavMenuOpen(false);
+  }
   return (
     <>
-      <Header isOpenNavMenu={props.isOpenNavMenu ? "header_opened" : ""}>
+      <Header isOpenNavMenu={props.isOpenNavMenu ? "header_opened " : ""}>
         <div
           className={`header__menu-burger ${
             props.isOpenNavMenu ? "header__menu-burger_click" : ""
@@ -20,8 +26,10 @@ function Main(props) {
             props.isOpenNavMenu ? "header__nav_opened" : ""
           }`}
         >
-          <p className="header__user-login">email@mail.com</p>
-          <button className="header__exit-btn">Выйти</button>
+          <p className="header__user-login">{props.email}</p>
+          <button onClick={onSignOut} className="header__exit-btn">
+            Выйти
+          </button>
         </nav>
       </Header>
       <main className="content">

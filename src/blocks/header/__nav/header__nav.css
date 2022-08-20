@@ -8,16 +8,6 @@
     align-items: center;
 }
 
-@keyframes close {
-    0% {
-      opacity: 1;
-    }
-    100% {
-        opacity: 0;
-      }
-  }
-
-
 @media (max-width: 767px) {
     .header__nav {
         visibility: hidden;
@@ -33,6 +23,6 @@
         flex-direction: column;
         gap: 18px;
         opacity: 0;
-        transition: opacity 0.3s, visibility 0s 1s;
+        /* transition: opacity 0.3s, visibility 0s 1s; */
     }
 }

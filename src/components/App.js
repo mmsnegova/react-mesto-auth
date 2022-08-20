@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import api from "../utils/api";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -16,7 +16,11 @@ import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth";
 
 export default function App() {
+  const history = useHistory();
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({
+    email: "email@mail.ru",
+  });
   const [currentUser, setCurrentUser] = React.useState("");
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -81,6 +85,24 @@ export default function App() {
     setCardDelete(null);
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      auth.getContent(token).then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          setUserData({
+            email: res.data.email,
+          });
+        }
+      });
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (loggedIn) history.push("/main");
+  }, [loggedIn]);
+
   function handleRespons(img, message) {
     setInfoRespose({
       img,
@@ -98,13 +120,14 @@ export default function App() {
   function onLogin(password, email) {
     return auth.authorize(password, email).then((res) => {
       setLoggedIn(true);
-      console.log(res);
     });
   }
 
-  useEffect(() => {
-    console.log(loggedIn);
-  });
+  function onSignOut() {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    history.push("/sign-in");
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -174,16 +197,19 @@ export default function App() {
             <ProtectedRoute
               path="/main"
               loggedIn={loggedIn}
+              {...userData}
               onEditProfile={handleEditProfileClick}
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onPopupWithConformation={handleDeleteCardClick}
               onNavMenu={handleNavMenuClick}
+              setIsNavMenuOpen={setIsNavMenuOpen}
               isOpenNavMenu={isNavMenuOpen}
               onCardClick={handleCardClick}
               cards={cards}
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
+              onSignOut={onSignOut}
               component={Main}
             />
             <Route path="/sign-up">
