@@ -5,6 +5,8 @@
         height: 21px;
         display: block;
         margin: 0;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
     }
 
     .header__menu-burger span, .header__menu-burger:after, .header__menu-burger:before{
@@ -32,3 +34,8 @@
     }
 }
 
+@media(hover: hover) and (pointer: fine) {
+    .header__menu-burger:hover {
+      opacity: 0.6;
+    }
+}
