@@ -9,13 +9,12 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      if (response.status !== 400) return response.json();
-      else return;
+      if (response.ok) return response.json();
+      return Promise.reject(`Ошибка: ${response.status}`);
     })
     .then((response) => {
       return response;
-    })
-    .catch((err) => console.log(err));
+    });
 };
 
 export const authorize = (password, email) => {
@@ -27,9 +26,8 @@ export const authorize = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      if (response.status !== 401 && response.status !== 400)
-        return response.json();
-      else return;
+      if (response.ok) return response.json();
+      return Promise.reject(`Ошибка: ${response.status}`);
     })
     .then((response) => {
       if (response.token) {

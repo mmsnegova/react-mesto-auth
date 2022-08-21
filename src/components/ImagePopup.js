@@ -2,7 +2,7 @@ import React from "react";
 
 function ImagePopup(props) {
   return (
-    <div className={`popup popup_view ${props.link ? "popup_opened" : ""}`}>
+    <div className={`popup popup_view ${props.link && "popup_opened"}`}>
       <figure className="popup__figure">
         <button
           className="popup__close"

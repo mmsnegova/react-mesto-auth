@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "./Header";
-import ok from "../images/Ok.svg";
-import error from "../images/Error.svg";
 
 function Register(props) {
-  const history = useHistory();
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -18,10 +15,6 @@ function Register(props) {
     });
   };
 
-  function handleRespons(img, message) {
-    props.onRespons(img, message);
-  }
-
   function handleChange(evt) {
     setUserInfo({
       ...userInfo,
@@ -32,19 +25,7 @@ function Register(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
     const { password, email } = userInfo;
-    props
-      .onRegister(password, email)
-      .then(resetForm)
-      .then(() => {
-        handleRespons(ok, "Вы успешно зарегистрировались!");
-        history.push("/sign-in");
-      })
-      .catch(() => {
-        handleRespons(error, "Что-то пошло не так! Попробуйте ещё раз.");
-      })
-      .finally(() => {
-        props.onInfoTooltip();
-      });
+    props.onRegister(password, email).finally(resetForm);
   }
 
   return (

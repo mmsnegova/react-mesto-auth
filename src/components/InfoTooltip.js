@@ -4,7 +4,7 @@ function InfoTooltip(props) {
   return (
     <div
       className={`popup popup_type_info-tooltip ${
-        props.isOpen ? "popup_opened" : ""
+        props.isOpen && "popup_opened"
       }`}
     >
       <div className="popup__content popup__content_center">

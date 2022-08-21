@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Header from "./Header";
-import { Link, useHistory } from "react-router-dom";
-import error from "../images/Error.svg";
+import { Link } from "react-router-dom";
 
 function Login(props) {
-  const history = useHistory();
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -17,10 +15,6 @@ function Login(props) {
     });
   };
 
-  function handleRespons(img, message) {
-    props.onRespons(img, message);
-  }
-
   function handleChange(evt) {
     setUserInfo({
       ...userInfo,
@@ -31,16 +25,7 @@ function Login(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
     const { password, email } = userInfo;
-    props
-      .onLogin(password, email)
-      .then(resetForm)
-      .then(() => {
-        history.push("/main");
-      })
-      .catch(() => {
-        handleRespons(error, "Что-то пошло не так! Попробуйте ещё раз.");
-        props.onInfoTooltip();
-      });
+    props.onLogin(password, email).finally(resetForm);
   }
 
   return (

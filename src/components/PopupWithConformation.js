@@ -12,7 +12,7 @@ function PopupWithConformation(props) {
       name="with-conformation"
       title="Вы уверены?"
       buttonContent="Да"
-      isOpen={props.isOpen ? "popup_opened" : ""}
+      isOpen={props.isOpen && "popup_opened"}
       onClose={props.onClose}
       onSubmit={handleDeleteCardSubmit}
     />

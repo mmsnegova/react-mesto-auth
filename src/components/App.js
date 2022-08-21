@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -13,39 +13,41 @@ import InfoTooltip from "./InfoTooltip";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
+import ok from "../images/Ok.svg";
+import error from "../images/Error.svg";
 import * as auth from "../utils/auth";
 
 export default function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userData, setUserData] = React.useState({
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({
     email: "email@mail.ru",
   });
-  const [currentUser, setCurrentUser] = React.useState("");
-  const [cards, setCards] = React.useState([]);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
+  const [currentUser, setCurrentUser] = useState("");
+  const [cards, setCards] = useState([]);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupWithConformationOpen, setIsPopupWithConformationOpen] =
-    React.useState(false);
-  const [isInfoTooltipnOpen, setInfoTooltipOpen] = React.useState(false);
-  const [isNavMenuOpen, setIsNavMenuOpen] = React.useState(false);
-  const [infoRespose, setInfoRespose] = React.useState(null);
-  const [selectedCard, setSelectedCard] = React.useState(null);
-  const [cardDelete, setCardDelete] = React.useState(null);
+    useState(false);
+  const [isInfoTooltipnOpen, setInfoTooltipOpen] = useState(false);
+  const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
+  const [infoRespose, setInfoRespose] = useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [cardDelete, setCardDelete] = useState(null);
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([userData, cards]) => {
-        setCurrentUser(userData);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(`Ошибка ${err}`);
-      });
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([userData, cards]) => {
+          setCurrentUser(userData);
+          setCards(cards);
+        })
+        .catch((err) => {
+          console.log(`Ошибка ${err}`);
+        });
+    }
+  }, [loggedIn]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -100,7 +102,7 @@ export default function App() {
   }, [loggedIn]);
 
   useEffect(() => {
-    if (loggedIn) history.push("/main");
+    if (loggedIn) history.push("/");
   }, [loggedIn]);
 
   function handleRespons(img, message) {
@@ -111,16 +113,31 @@ export default function App() {
   }
 
   function onRegister(password, email) {
-    return auth.register(password, email).then((res) => {
-      if (!res) throw new Error("Что-то пошло не так");
-      return res;
-    });
+    return auth
+      .register(password, email)
+      .then(() => {
+        handleRespons(ok, "Вы успешно зарегистрировались!");
+        history.push("/sign-in");
+      })
+      .catch(() => {
+        handleRespons(error, "Что-то пошло не так! Попробуйте ещё раз.");
+      })
+      .finally(() => {
+        handleInfoTooltipResponse();
+      });
   }
 
   function onLogin(password, email) {
-    return auth.authorize(password, email).then((res) => {
-      setLoggedIn(true);
-    });
+    return auth
+      .authorize(password, email)
+      .then(() => {
+        setLoggedIn(true);
+        history.push("/");
+      })
+      .catch(() => {
+        handleRespons(error, "Что-то пошло не так! Попробуйте ещё раз.");
+        handleInfoTooltipResponse();
+      });
   }
 
   function onSignOut() {
@@ -195,7 +212,8 @@ export default function App() {
         <div className="page__container">
           <Switch>
             <ProtectedRoute
-              path="/main"
+              exact
+              path="/"
               loggedIn={loggedIn}
               {...userData}
               onEditProfile={handleEditProfileClick}
@@ -227,7 +245,7 @@ export default function App() {
               />
             </Route>
             <Route exact path="/">
-              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />
