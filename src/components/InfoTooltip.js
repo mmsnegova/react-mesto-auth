@@ -7,7 +7,7 @@ function InfoTooltip(props) {
         props.isOpen ? "popup_opened" : ""
       }`}
     >
-      <div className="popup__content popup__content_response">
+      <div className="popup__content popup__content_center">
         <button
           className="popup__close"
           type="button"
@@ -15,7 +15,7 @@ function InfoTooltip(props) {
           onClick={props.onClose}
         ></button>
         <img src={props.img} alt="Ответ" />
-        <h3 className="popup__title popup__title_response">{props.message}</h3>
+        <h3 className="popup__title popup__title_large">{props.message}</h3>
       </div>
     </div>
   );

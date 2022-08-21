@@ -40,7 +40,6 @@ function Register(props) {
         history.push("/sign-in");
       })
       .catch(() => {
-        resetForm();
         handleRespons(error, "Что-то пошло не так! Попробуйте ещё раз.");
       })
       .finally(() => {
@@ -56,12 +55,12 @@ function Register(props) {
         </Link>
       </Header>
       <div className="content">
-        <section className="sign">
+        <section className="authorization">
           <form className="popup__body" onSubmit={handleSubmit}>
             <h2 className="popup__title popup__title_dark">Регистрация</h2>
             <div className="input-container">
               <input
-                className="popup__input popup__input_light popup__input_email"
+                className="popup__input popup__input_dark popup__input_email"
                 required
                 id="email"
                 name="email"
@@ -74,7 +73,7 @@ function Register(props) {
             </div>
             <div className="input-container">
               <input
-                className="popup__input popup__input_light popup__input_password"
+                className="popup__input popup__input_dark popup__input_password"
                 required
                 id="password"
                 name="password"
@@ -86,16 +85,16 @@ function Register(props) {
               <span className="popup__input-error password-error"></span>
             </div>
             <button
-              className="popup__save popup__save_light"
+              className="popup__save popup__save_dark"
               type="submit"
               aria-label="Зарегистрироваться"
             >
               Зарегистрироваться
             </button>
           </form>
-          <div className="sign__signin">
+          <div className="authorization__signin">
             <span>Уже зарегистрированы? </span>
-            <Link to="sign-in" className="sign__link">
+            <Link to="sign-in" className="authorization__link">
               Войти
             </Link>
           </div>

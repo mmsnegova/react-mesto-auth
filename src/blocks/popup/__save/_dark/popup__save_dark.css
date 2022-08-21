@@ -1,4 +1,4 @@
-.popup__save_light{
+.popup__save_dark{
     margin-top: 206px;
     padding-bottom: 14px;
     border: 1px solid #FFF;
@@ -8,7 +8,7 @@
 }
 
 @media (max-width: 767px) {
-    .popup__save_light {
+    .popup__save_dark {
         font-size: 18px;
         line-height: 22px;
         margin-top: 163px;
@@ -18,7 +18,7 @@
 }
 
 @media(hover: hover) and (pointer: fine) {
-    .popup__save_light:hover {
+    .popup__save_dark:hover {
       opacity: 0.85;
     }
 }

@@ -1,11 +1,11 @@
-.sign__link {
+.authorization__link {
     color: white;
     text-decoration: none;
     transition: opacity 0.3s ease;
 }
 
 @media(hover: hover) and (pointer: fine) {
-    .sign__link:hover {
+    .authorization__link:hover {
       opacity: 0.6;
     }
 }

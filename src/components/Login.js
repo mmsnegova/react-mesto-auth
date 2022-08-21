@@ -51,12 +51,12 @@ function Login(props) {
         </Link>
       </Header>
       <div className="content">
-        <section className="sign">
+        <section className="authorization">
           <form className="popup__body" onSubmit={handleSubmit}>
             <h2 className="popup__title popup__title_dark">Вход</h2>
             <div className="input-container">
               <input
-                className="popup__input popup__input_light popup__input_email"
+                className="popup__input popup__input_dark popup__input_email"
                 required
                 id="email"
                 name="email"
@@ -69,7 +69,7 @@ function Login(props) {
             </div>
             <div className="input-container">
               <input
-                className="popup__input popup__input_light popup__input_password"
+                className="popup__input popup__input_dark popup__input_password"
                 required
                 id="password"
                 name="password"
@@ -81,7 +81,7 @@ function Login(props) {
               <span className="popup__input-error password-error"></span>
             </div>
             <button
-              className="popup__save popup__save_light"
+              className="popup__save popup__save_dark"
               type="submit"
               aria-label="Войти"
             >
